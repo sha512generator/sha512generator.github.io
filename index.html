@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SHA 256 online generator</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-compat-git.js"></script>
+
+    <script type="text/javascript">
+        $(window).on('load', function () {
+
+            $('#example').keyup(function () {
+                update();
+            });
+
+            async function update() {
+                let shaResult = await sha256($('#example').val().trim());
+                $('#result').text(shaResult);
+            }
+
+            async function sha256(message) {
+                if (message.length > 0) {
+                    // encode as UTF-8
+                    const msgBuffer = new TextEncoder('utf-8').encode(message);
+
+                    // hash the message
+                    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+                    // convert ArrayBuffer to Array
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+                    // convert bytes to hex string                  
+                    const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+                    return hashHex;
+                }
+                return '';
+            }
+        });
+    </script>
+
+</head>
+
+<body>
+
+    <div class="jumbotron text-center">
+        <h1>SHA 256 online generator</h1>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <h3>Input here</h3>
+                <input class="form-control" type="text" id="example"></input>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <h3>SHA 256 output</h3>
+                <div class="text-muted" id="result"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

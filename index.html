@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SHA 256 online generator</title>
+    <title>SHA 512 online generator</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
@@ -21,17 +21,17 @@
             });
 
             async function update() {
-                let shaResult = await sha256($('#example').val().trim());
+                let shaResult = await sha512($('#example').val().trim());
                 $('#result').text(shaResult);
             }
 
-            async function sha256(message) {
+            async function sha512(message) {
                 if (message.length > 0) {
                     // encode as UTF-8
                     const msgBuffer = new TextEncoder('utf-8').encode(message);
 
                     // hash the message
-                    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                    const hashBuffer = await crypto.subtle.digest('SHA-512', msgBuffer);
 
                     // convert ArrayBuffer to Array
                     const hashArray = Array.from(new Uint8Array(hashBuffer));
@@ -50,7 +50,7 @@
 <body>
 
     <div class="jumbotron text-center">
-        <h1>SHA 256 online generator</h1>
+        <h1>SHA 512 online generator</h1>
     </div>
 
     <div class="container">
@@ -60,7 +60,7 @@
                 <input class="form-control" type="text" id="example"></input>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <h3>SHA 256 output</h3>
+                <h3>SHA 512 output</h3>
                 <div class="text-muted" contenteditable=true id="result"></div>
             </div>
         </div>
